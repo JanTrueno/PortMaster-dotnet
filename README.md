@@ -15,7 +15,7 @@ The script downloads two files from Microsoft and checks them against pinned SHA
 - `dotnet-runtime-10.0.15-linux-arm64.tar.gz` from builds.dotnet.microsoft.com (the hash from Microsoft's release notes)
 - `Microsoft.NETCore.App.Crossgen2.linux-arm64` 10.0.15 from NuGet
 
-It unpacks them into one tree and packs it with xz in 128 KB blocks. The result is `out/dotnet-10.0.15-aarch64.squashfs`
+It unpacks them into one tree and packs it with gzip in 128 KB blocks, like PortMaster's own runtimes: the 4.4 kernels of dArkOS on RK3326 handhelds cannot mount an xz squashfs. The result is `out/dotnet-10.0.15-aarch64.squashfs`
 with a `.sha256` file next to it. Downloads stay in `cache/`.
 
 Needs `curl`, `tar`, `unzip`, `sha512sum` and `mksquashfs` (squashfs-tools).

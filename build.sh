@@ -37,7 +37,9 @@ unzip -q -j "$CACHE/crossgen2-$VERSION-linux-arm64.nupkg" tools/crossgen2 tools/
 chmod 755 "$STAGE/dotnet" "$STAGE/crossgen2/crossgen2"
 
 rm -f "$SQ"
-mksquashfs "$STAGE" "$SQ" -comp xz -b 128K -all-root -no-xattrs -noappend -quiet
+# gzip, as PortMaster's own runtimes: the 4.4 kernels of dArkOS on the RK3326 (R36S class) have no xz squashfs and refuse to
+# mount it ("Filesystem uses "xz" compression. This is not supported")
+mksquashfs "$STAGE" "$SQ" -comp gzip -b 128K -all-root -no-xattrs -noappend -quiet
 rm -rf "$HERE/build"
 echo "built $SQ ($(du -h "$SQ" | cut -f1))"
 (cd "$OUT" && sha256sum "$(basename "$SQ")" | tee "$(basename "$SQ").sha256")
